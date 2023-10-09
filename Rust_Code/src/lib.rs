@@ -18,6 +18,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
         y: PyReadonlyArray2<'py, f64>,
     ) -> &'py PyArray2<f64> {
 
+		arrayfire::set_backend(arrayfire::Backend::CUDA);
+
 		let x_dims = x.shape().clone().to_vec();
         let x = x.to_vec().unwrap();
 

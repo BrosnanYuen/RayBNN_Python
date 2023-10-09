@@ -2,7 +2,7 @@
 extern crate blas_src;
 
 use numpy::ndarray::Zip;
-use numpy::{IntoPyArray, PyArray1, PyReadonlyArray1, PyReadonlyArray2};
+use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray1, PyReadonlyArray2, PyArray};
 use pyo3::{pymodule, types::PyModule, PyResult, Python};
 
 #[pymodule]
@@ -11,12 +11,17 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     fn rows_dot<'py>(
         py: Python<'py>,
         x: PyReadonlyArray2<'py, f64>,
-        y: PyReadonlyArray1<'py, f64>,
-    ) -> &'py PyArray1<f64> {
-        let x = x.as_array();
-        let y = y.as_array();
-        let z = Zip::from(x.rows()).par_map_collect(|row| row.dot(&y));
-        z.into_pyarray(py)
+        y: PyReadonlyArray2<'py, f64>,
+    ) -> &'py PyArray2<f64> {
+        let x = x.to_vec().unwrap();
+        let y = y.to_vec().unwrap();
+
+		println!("x {:?}",x);
+
+
+		let vec2 = vec![vec![11.0, 2.0], vec![21.0, 22.0]];
+		let output = PyArray2::from_vec2(py, &vec2).unwrap();
+		output
     }
     Ok(())
 }

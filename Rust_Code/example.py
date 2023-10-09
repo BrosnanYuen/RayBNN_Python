@@ -15,7 +15,7 @@ print(y)
 
 print("Rust")
 
-z = raybnn_python.rows_dot(x, y)
+z = raybnn_python.magic2(x, y)
 
 print(z)
 

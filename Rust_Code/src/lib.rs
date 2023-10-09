@@ -27,8 +27,18 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		arrayfire::print_gen("a".to_string(), &a, Some(6));
 
 
-		let vec2 = vec![vec![11.0, 2.0], vec![21.0, 22.0]];
-		let output = PyArray2::from_vec2(py, &vec2).unwrap();
+
+		let mut output_vec: Vec<Vec<f64> >  = Vec::new() ;
+		for i in 0..a.dims()[0]
+		{
+			let row = arrayfire::row(&a,i as i64);
+			let mut tempvec = vec!(f64::default();row.elements());
+			row.host(&mut tempvec);
+			output_vec.push(tempvec);
+		}
+
+
+		let output = PyArray2::from_vec2(py, &output_vec).unwrap();
 		output
     }
     Ok(())

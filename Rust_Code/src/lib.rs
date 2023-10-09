@@ -5,6 +5,10 @@ use numpy::ndarray::Zip;
 use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray1, PyReadonlyArray2, PyArray};
 use pyo3::{pymodule, types::PyModule, PyResult, Python};
 
+use arrayfire;
+use raybnn;
+
+
 #[pymodule]
 fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     #[pyfn(m)]
@@ -16,7 +20,9 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
         let x = x.to_vec().unwrap();
         let y = y.to_vec().unwrap();
 
-		println!("x {:?}",x);
+		let a = arrayfire::Array::new(&x, arrayfire::Dim4::new(&[3, 3, 1, 1]));
+
+		arrayfire::print_gen("a".to_string(), &a, Some(6));
 
 
 		let vec2 = vec![vec![11.0, 2.0], vec![21.0, 22.0]];

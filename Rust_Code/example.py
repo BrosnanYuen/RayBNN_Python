@@ -6,7 +6,7 @@ import raybnn_python
 
 
 
-x = np.array([ [-2, 4], [3, 6]   ], dtype=np.float64)
+x = np.array([ [-2, 4, 7], [3, 6, 9], [-4, 1, 12]   ], dtype=np.float64)
 y = np.array([ [-22, 44], [73, 26]   ], dtype=np.float64)
 
 print(x)

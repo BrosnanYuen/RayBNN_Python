@@ -6,7 +6,7 @@ use numpy::{IntoPyArray, PyArray1, PyReadonlyArray1, PyReadonlyArray2};
 use pyo3::{pymodule, types::PyModule, PyResult, Python};
 
 #[pymodule]
-fn rust_parallel<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
+fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     #[pyfn(m)]
     fn rows_dot<'py>(
         py: Python<'py>,

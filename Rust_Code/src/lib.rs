@@ -17,11 +17,13 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
         x: PyReadonlyArray2<'py, f64>,
         y: PyReadonlyArray2<'py, f64>,
     ) -> &'py PyArray2<f64> {
+
+		let x_dims = x.shape().clone().to_vec();
         let x = x.to_vec().unwrap();
-        let y = y.to_vec().unwrap();
 
-		let a = arrayfire::Array::new(&x, arrayfire::Dim4::new(&[3, 3, 1, 1]));
 
+		let mut a = arrayfire::Array::new(&x, arrayfire::Dim4::new(&[x_dims[1] as u64, x_dims[0] as u64, 1, 1]));
+		a = arrayfire::transpose(&a, false);
 		arrayfire::print_gen("a".to_string(), &a, Some(6));
 
 

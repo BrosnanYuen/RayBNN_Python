@@ -48,11 +48,11 @@ def main():
     exit_counter_threshold = 5
     shuffle_counter_threshold = 10000
 
-    train_x = np.random.rand(input_size,batch_size,traj_size,training_samples)
-    train_y = np.random.rand(output_size,batch_size,traj_size,training_samples)
+    train_x = np.random.rand(input_size,batch_size,traj_size,training_samples).astype(np.float32)
+    train_y = np.random.rand(output_size,batch_size,traj_size,training_samples).astype(np.float32)
 
-    crossval_x = np.random.rand(input_size,batch_size,traj_size,crossval_samples)
-    crossval_y = np.random.rand(output_size,batch_size,traj_size,crossval_samples)
+    crossval_x = np.random.rand(input_size,batch_size,traj_size,crossval_samples).astype(np.float32)
+    crossval_y = np.random.rand(output_size,batch_size,traj_size,crossval_samples).astype(np.float32)
 
 
     arch_search = raybnn_python.train_network(

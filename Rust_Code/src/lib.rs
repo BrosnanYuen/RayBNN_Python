@@ -96,27 +96,24 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
-
 		//Train Options
 		let train_stop_options = raybnn::interface::autotrain_f32::train_network_options_type {
 			stop_strategy: raybnn::interface::autotrain_f32::stop_strategy_type::STOP_AT_TRAIN_LOSS,
 			lr_strategy: raybnn::interface::autotrain_f32::lr_strategy_type::NONE,
 			lr_strategy2: raybnn::interface::autotrain_f32::lr_strategy2_type::BTLS_ALPHA,
 
-			max_epoch: 10000000,
-			stop_epoch: 0,
-			stop_train_loss: cur_train_loss,
+			max_epoch: max_epoch,
+			stop_epoch: stop_epoch,
+			stop_train_loss: stop_train_loss,
 
-			exit_counter_threshold: 10000000,
-			shuffle_counter_threshold: 10000000,
+			exit_counter_threshold: exit_counter_threshold,
+			shuffle_counter_threshold: shuffle_counter_threshold,
 		};
-				
+		
+		
 		let mut alpha_max_vec = Vec::new();
-
 		let mut loss_vec = Vec::new();
-
 		let mut crossval_vec = Vec::new();
-	
 		let mut loss_status = raybnn::interface::autotrain_f32::loss_status_type::LOSS_OVERFLOW;
 
 		println!("Start training");

@@ -15,6 +15,57 @@ use pythonize::{depythonize, pythonize};
 #[pymodule]
 fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
+
+
+	#[pyfn(m)]
+    fn create_start_archtecture<'py>(
+        py: Python<'py>,
+		input_size: u64,
+		max_input_size: u64,
+	
+	
+		output_size: u64,
+		max_output_size: u64,
+	
+		max_neuron_size: u64,
+	
+	
+		batch_size: u64,
+		traj_size: u64,
+	
+		dir_path:  &str 
+    ) -> Py<PyAny> {
+
+		arrayfire::set_backend(arrayfire::Backend::CUDA);
+
+		let mut arch_search = raybnn::interface::automatic_f32::create_start_archtecture(
+
+			input_size,
+			max_input_size,
+	
+			output_size,
+			max_output_size,
+	
+			max_neuron_size,
+	
+	
+			batch_size,
+			traj_size,
+	
+		
+			&dir_path
+		);
+
+		let obj = pythonize(py, &arch_search).unwrap();
+
+		obj
+	}
+
+
+
+
+
+
 	#[pyfn(m)]
     fn magic2<'py>(
         py: Python<'py>,

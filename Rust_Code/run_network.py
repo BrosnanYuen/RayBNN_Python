@@ -29,6 +29,12 @@ traj_size,
 dir_path)
 
 
+raybnn_python.print_model_info(arch_search)
+
+
+
+
+
 
 
 

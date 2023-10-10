@@ -15,8 +15,20 @@ use pythonize::{depythonize, pythonize};
 #[pymodule]
 fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
+	#[pyfn(m)]
+    fn print_model_info<'py>(
+        py: Python<'py>,
+		model: Py<PyAny>
+    ) {
+		arrayfire::set_backend(arrayfire::Backend::CUDA);
+
+		let arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
+
+		raybnn::neural::network_f32::print_netdata(&arch_search.neural_network.netdata);
+	}
 
 
+	
 	#[pyfn(m)]
     fn create_start_archtecture<'py>(
         py: Python<'py>,

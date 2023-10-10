@@ -88,7 +88,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		lr_strategy_input: String,
 		lr_strategy2_input: String,
 
-		loss_function_input: String,
+		loss_function: String,
 	
 		max_epoch: u64,
 		stop_epoch: u64,
@@ -148,6 +148,27 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		{
 			lr_strategy2 = raybnn::interface::autotrain_f32::lr_strategy2_type::MAX_ALPHA;
 		}
+
+
+
+
+		type Binop = Fn(&arrayfire::Array<f32>, &arrayfire::Array<f32>) -> f32   + Copy;
+		type Binop2 = Fn(&arrayfire::Array<f32>, &arrayfire::Array<f32>) -> arrayfire::Array<f32>  + Copy;
+		let mut loss_func: Binop = raybnn::optimal::loss_f32::MSE;
+		let mut loss_func_grad: Binop2 = raybnn::optimal::loss_f32::MSE_grad;
+
+		if loss_function == "MSE"
+		{
+			loss_func = raybnn::optimal::loss_f32::MSE;
+			loss_func_grad = raybnn::optimal::loss_f32::MSE_grad;
+		}
+		else if loss_function == "softmax_cross_entropy"
+		{
+			loss_func = raybnn::optimal::loss_f32::softmax_cross_entropy;
+			loss_func_grad = raybnn::optimal::loss_f32::softmax_cross_entropy_grad;
+		}
+
+
 
 
 

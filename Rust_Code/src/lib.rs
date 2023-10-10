@@ -10,7 +10,7 @@ use raybnn;
 
 use pythonize::{depythonize, pythonize};
 
-
+use nohash_hasher;
 
 #[pymodule]
 fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
@@ -181,15 +181,22 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		arrayfire::device_gc();
 
 
+		let mut traindata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
+		let mut traindata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
+		
+		let mut validationdata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
+		let mut validationdata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
+
+
 		if loss_function == "MSE"
 		{
 			//Train network, stop at lowest crossval
 			raybnn::interface::autotrain_f32::train_network(
-				&RSSI_TRAINX,
-				&RSSI_TRAINY,
+				&traindata_X,
+				&traindata_Y,
 			
-				&RSSI_TRAINX,
-				&RSSI_TRAINY,
+				&validationdata_X,
+				&validationdata_Y,
 			
 				raybnn::optimal::loss_f32::RMSE,
 				raybnn::optimal::loss_f32::MSE_grad,

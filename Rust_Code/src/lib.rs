@@ -2,7 +2,7 @@
 extern crate blas_src;
 
 use numpy::ndarray::Zip;
-use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray1, PyReadonlyArray2, PyArray};
+use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray3, PyReadonlyArray2, PyArray};
 use pyo3::{pymodule, types::PyModule, PyResult, Python, PyObject, PyAny, Py};
 
 use arrayfire;
@@ -78,9 +78,17 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     fn train_network<'py>(
         py: Python<'py>,
 
+		train_x: PyReadonlyArray3<'py, f32>,
+        train_y: PyReadonlyArray3<'py, f32>,
+
+		crossval_x: PyReadonlyArray3<'py, f32>,
+        crossval_y: PyReadonlyArray3<'py, f32>,
+
 		stop_strategy: String,
 		lr_strategy: String,
 		lr_strategy2: String,
+
+		loss_function: String,
 	
 		max_epoch: u64,
 		stop_epoch: u64,
@@ -110,7 +118,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			shuffle_counter_threshold: shuffle_counter_threshold,
 		};
 		
-		
+
 		let mut alpha_max_vec = Vec::new();
 		let mut loss_vec = Vec::new();
 		let mut crossval_vec = Vec::new();
@@ -131,9 +139,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			raybnn::optimal::loss_f32::RMSE,
 			raybnn::optimal::loss_f32::MSE_grad,
 
-
 			train_stop_options,
-
 
 			&mut alpha_max_vec,
 			&mut loss_vec,

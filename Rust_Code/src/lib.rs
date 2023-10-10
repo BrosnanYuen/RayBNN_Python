@@ -198,7 +198,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 				&validationdata_X,
 				&validationdata_Y,
 			
-				raybnn::optimal::loss_f32::RMSE,
+				raybnn::optimal::loss_f32::MSE,
 				raybnn::optimal::loss_f32::MSE_grad,
 
 				train_stop_options,
@@ -212,9 +212,45 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		}
 		else if loss_function == "softmax_cross_entropy"
 		{
+			raybnn::interface::autotrain_f32::train_network(
+				&traindata_X,
+				&traindata_Y,
+			
+				&validationdata_X,
+				&validationdata_Y,
+			
+				raybnn::optimal::loss_f32::softmax_cross_entropy,
+				raybnn::optimal::loss_f32::softmax_cross_entropy_grad,
+
+				train_stop_options,
+
+				&mut alpha_max_vec,
+				&mut loss_vec,
+				&mut crossval_vec,
+				&mut arch_search,
+				&mut loss_status
+			);
 		}
 		else if loss_function == "sigmoid_cross_entropy"
 		{
+			raybnn::interface::autotrain_f32::train_network(
+				&traindata_X,
+				&traindata_Y,
+			
+				&validationdata_X,
+				&validationdata_Y,
+			
+				raybnn::optimal::loss_f32::sigmoid_cross_entropy,
+				raybnn::optimal::loss_f32::sigmoid_cross_entropy_grad,
+
+				train_stop_options,
+
+				&mut alpha_max_vec,
+				&mut loss_vec,
+				&mut crossval_vec,
+				&mut arch_search,
+				&mut loss_status
+			);
 		}
 
 

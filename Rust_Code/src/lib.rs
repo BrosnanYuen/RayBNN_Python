@@ -195,13 +195,22 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let mut validationdata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 		let mut validationdata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 
-		for traj in 0..train_x_dims[2]
+		for traj in 0..train_x_dims[3]
 		{
 			let X = train_x.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
 			let Y = train_y.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
 
 			traindata_X.insert(traj as u64, X);
 			traindata_Y.insert(traj as u64, Y);
+		}
+
+		for traj in 0..crossval_x_dims[3]
+		{
+			let X = crossval_x.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let Y = crossval_y.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+
+			validationdata_X.insert(traj as u64, X);
+			validationdata_Y.insert(traj as u64, Y);
 		}
 
 

@@ -2,7 +2,7 @@
 extern crate blas_src;
 
 use numpy::ndarray::Zip;
-use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray3, PyReadonlyArray2, PyArray};
+use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray4, PyReadonlyArray2, PyArray};
 use pyo3::{pymodule, types::PyModule, PyResult, Python, PyObject, PyAny, Py};
 
 use arrayfire;
@@ -80,11 +80,11 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     fn train_network<'py>(
         py: Python<'py>,
 
-		train_x: PyReadonlyArray3<'py, f32>,
-        train_y: PyReadonlyArray3<'py, f32>,
+		train_x: PyReadonlyArray4<'py, f32>,
+        train_y: PyReadonlyArray4<'py, f32>,
 
-		crossval_x: PyReadonlyArray3<'py, f32>,
-        crossval_y: PyReadonlyArray3<'py, f32>,
+		crossval_x: PyReadonlyArray4<'py, f32>,
+        crossval_y: PyReadonlyArray4<'py, f32>,
 
 		stop_strategy_input: String,
 		lr_strategy_input: String,
@@ -197,15 +197,15 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..train_x_dims[2]
 		{
-			let X = train_x.as_array().index_axis(Axis(2), traj).to_slice().unwrap().to_vec();
-			let Y = train_y.as_array().index_axis(Axis(2), traj).to_slice().unwrap().to_vec();
+			let X = train_x.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let Y = train_y.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
 
 			traindata_X.insert(traj as u64, X);
 			traindata_Y.insert(traj as u64, Y);
 		}
 
 
-		
+
 
 		if loss_function == "MSE"
 		{

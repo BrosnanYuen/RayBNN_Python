@@ -181,12 +181,22 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		arrayfire::device_gc();
 
 
+		let train_x_dims = train_x.shape().clone().to_vec();
+		let train_y_dims = train_y.shape().clone().to_vec();
+
+		let crossval_x_dims = crossval_x.shape().clone().to_vec();
+		let crossval_y_dims = crossval_y.shape().clone().to_vec();
+
 		let mut traindata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 		let mut traindata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 		
 		let mut validationdata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 		let mut validationdata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 
+		for traj in 0..train_x_dims[2]
+		{
+			let X = train_x.index_axis(Axis(2), traj);
+		}
 
 		if loss_function == "MSE"
 		{

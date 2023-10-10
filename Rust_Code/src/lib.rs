@@ -152,27 +152,6 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 
 
-		type Binop = Fn(&arrayfire::Array<f32>, &arrayfire::Array<f32>) -> f32   + Copy;
-		type Binop2 = Fn(&arrayfire::Array<f32>, &arrayfire::Array<f32>) -> arrayfire::Array<f32>  + Copy;
-		let mut loss_func: Binop = raybnn::optimal::loss_f32::MSE;
-		let mut loss_func_grad: Binop2 = raybnn::optimal::loss_f32::MSE_grad;
-
-		if loss_function == "MSE"
-		{
-			loss_func = raybnn::optimal::loss_f32::MSE;
-			loss_func_grad = raybnn::optimal::loss_f32::MSE_grad;
-		}
-		else if loss_function == "softmax_cross_entropy"
-		{
-			loss_func = raybnn::optimal::loss_f32::softmax_cross_entropy;
-			loss_func_grad = raybnn::optimal::loss_f32::softmax_cross_entropy_grad;
-		}
-
-
-
-
-
-
 		arrayfire::set_backend(arrayfire::Backend::CUDA);
 
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
@@ -201,25 +180,35 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		arrayfire::device_gc();
 
-		//Train network, stop at lowest crossval
-		raybnn::interface::autotrain_f32::train_network(
-			&RSSI_TRAINX,
-			&RSSI_TRAINY,
-		
-			&RSSI_TRAINX,
-			&RSSI_TRAINY,
-		
-			raybnn::optimal::loss_f32::RMSE,
-			raybnn::optimal::loss_f32::MSE_grad,
 
-			train_stop_options,
+		if loss_function == "MSE"
+		{
+			//Train network, stop at lowest crossval
+			raybnn::interface::autotrain_f32::train_network(
+				&RSSI_TRAINX,
+				&RSSI_TRAINY,
+			
+				&RSSI_TRAINX,
+				&RSSI_TRAINY,
+			
+				raybnn::optimal::loss_f32::RMSE,
+				raybnn::optimal::loss_f32::MSE_grad,
 
-			&mut alpha_max_vec,
-			&mut loss_vec,
-			&mut crossval_vec,
-			&mut arch_search,
-			&mut loss_status
-		);
+				train_stop_options,
+
+				&mut alpha_max_vec,
+				&mut loss_vec,
+				&mut crossval_vec,
+				&mut arch_search,
+				&mut loss_status
+			);
+		}
+		else if loss_function == "softmax_cross_entropy"
+		{
+		}
+		else if loss_function == "sigmoid_cross_entropy"
+		{
+		}
 
 
 		let obj = pythonize(py, &arch_search).unwrap();

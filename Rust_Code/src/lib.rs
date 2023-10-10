@@ -110,6 +110,14 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		{
 			stop_stategy = raybnn::interface::autotrain_f32::stop_strategy_type::STOP_AT_EPOCH;
 		}
+		else if stop_strategy_input == "STOP_AT_TRAIN_LOSS"
+		{
+			stop_stategy = raybnn::interface::autotrain_f32::stop_strategy_type::STOP_AT_TRAIN_LOSS;
+		}
+		else if stop_strategy_input == "CROSSVAL_STOPPING"
+		{
+			stop_stategy = raybnn::interface::autotrain_f32::stop_strategy_type::CROSSVAL_STOPPING;
+		}
 
 
 

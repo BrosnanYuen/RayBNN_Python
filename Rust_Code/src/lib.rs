@@ -207,8 +207,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..train_x_dims[3]
 		{
-			let X = train_x.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
-			let Y = train_y.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let X = train_x.index_axis(Axis(3), traj).to_owned().into_raw_vec();
+			let Y = train_y.index_axis(Axis(3), traj).to_owned().into_raw_vec();
 
 			traindata_X.insert(traj as u64, X);
 			traindata_Y.insert(traj as u64, Y);
@@ -216,8 +216,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..crossval_x_dims[3]
 		{
-			let X = crossval_x.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
-			let Y = crossval_y.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let X = crossval_x.index_axis(Axis(3), traj).to_owned().into_raw_vec();
+			let Y = crossval_y.index_axis(Axis(3), traj).to_owned().into_raw_vec();
 
 			validationdata_X.insert(traj as u64, X);
 			validationdata_Y.insert(traj as u64, Y);

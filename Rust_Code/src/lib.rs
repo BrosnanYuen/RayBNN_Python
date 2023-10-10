@@ -121,6 +121,26 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 
 
+
+		let mut lr_strategy = raybnn::interface::autotrain_f32::lr_strategy_type::NONE;
+
+		if lr_strategy_input == "NONE"
+		{
+			lr_strategy = raybnn::interface::autotrain_f32::lr_strategy_type::NONE;
+		}
+		else if lr_strategy_input == "COSINE_ANNEALING"
+		{
+			lr_strategy = raybnn::interface::autotrain_f32::lr_strategy_type::COSINE_ANNEALING;
+		}
+		else if lr_strategy_input == "SHUFFLE_CONNECTIONS"
+		{
+			lr_strategy = raybnn::interface::autotrain_f32::lr_strategy_type::SHUFFLE_CONNECTIONS;
+		}
+
+
+
+
+
 		arrayfire::set_backend(arrayfire::Backend::CUDA);
 
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
@@ -128,7 +148,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		//Train Options
 		let train_stop_options = raybnn::interface::autotrain_f32::train_network_options_type {
 			stop_strategy: stop_stategy,
-			lr_strategy: raybnn::interface::autotrain_f32::lr_strategy_type::NONE,
+			lr_strategy: lr_strategy,
 			lr_strategy2: raybnn::interface::autotrain_f32::lr_strategy2_type::BTLS_ALPHA,
 
 			max_epoch: max_epoch,

@@ -22,18 +22,16 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
         py: Python<'py>,
 		input_size: u64,
 		max_input_size: u64,
-	
-	
+
 		output_size: u64,
 		max_output_size: u64,
-	
+
 		max_neuron_size: u64,
-	
-	
+
 		batch_size: u64,
 		traj_size: u64,
-	
-		dir_path:  &str 
+
+		dir_path:  &str
     ) -> Py<PyAny> {
 
 		arrayfire::set_backend(arrayfire::Backend::CUDA);
@@ -42,24 +40,31 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 			input_size,
 			max_input_size,
-	
+
 			output_size,
 			max_output_size,
-	
+
 			max_neuron_size,
-	
-	
+
 			batch_size,
 			traj_size,
-	
-		
-			&dir_path
+
+			dir_path
 		);
 
 		let obj = pythonize(py, &arch_search).unwrap();
 
 		obj
 	}
+
+
+
+
+
+
+
+
+
 
 
 

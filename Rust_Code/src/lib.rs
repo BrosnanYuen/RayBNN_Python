@@ -12,6 +12,8 @@ use pythonize::{depythonize, pythonize};
 
 use nohash_hasher;
 
+use ndarray::Axis;
+
 #[pymodule]
 fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
@@ -195,7 +197,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..train_x_dims[2]
 		{
-			let X = train_x.index_axis(Axis(2), traj);
+			let X = train_x.as_array().index_axis(Axis(2), traj);
+			
 		}
 
 		if loss_function == "MSE"

@@ -210,7 +210,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			let X = train_x.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
 			let Y = train_y.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
 
-println!("X.len() {}",X.len());
+
 
 
 			traindata_X.insert(traj as u64, X);

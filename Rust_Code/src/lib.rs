@@ -183,6 +183,9 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		arrayfire::device_gc();
 
 
+		
+
+
 		let train_x_dims = train_x.shape().clone().to_vec();
 		let train_y_dims = train_y.shape().clone().to_vec();
 
@@ -195,10 +198,17 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let mut validationdata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 		let mut validationdata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 
+
+		let train_x = train_x.to_owned_array() ;
+		let train_y = train_y.to_owned_array() ;
+
+		let crossval_x = crossval_x.to_owned_array() ;
+		let crossval_y = crossval_y.to_owned_array() ;
+
 		for traj in 0..train_x_dims[3]
 		{
-			let X = train_x.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
-			let Y = train_y.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let X = train_x.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let Y = train_y.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
 
 			traindata_X.insert(traj as u64, X);
 			traindata_Y.insert(traj as u64, Y);
@@ -206,8 +216,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..crossval_x_dims[3]
 		{
-			let X = crossval_x.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
-			let Y = crossval_y.as_array().index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let X = crossval_x.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
+			let Y = crossval_y.index_axis(Axis(3), traj).to_slice().unwrap().to_vec();
 
 			validationdata_X.insert(traj as u64, X);
 			validationdata_Y.insert(traj as u64, Y);

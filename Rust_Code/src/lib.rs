@@ -30,7 +30,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 	}
 
 
-	
+
 	#[pyfn(m)]
     fn create_start_archtecture<'py>(
         py: Python<'py>,
@@ -91,11 +91,11 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		lr_strategy2_input: String,
 
 		loss_function: String,
-	
+
 		max_epoch: u64,
 		stop_epoch: u64,
 		stop_train_loss: f32,
-	
+
 		exit_counter_threshold: u64,
 		shuffle_counter_threshold: u64,
 
@@ -171,7 +171,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			exit_counter_threshold: exit_counter_threshold,
 			shuffle_counter_threshold: shuffle_counter_threshold,
 		};
-		
+
 
 		let mut alpha_max_vec = Vec::new();
 		let mut loss_vec = Vec::new();
@@ -183,7 +183,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		arrayfire::device_gc();
 
 
-		
+
 
 
 		let train_x_dims = train_x.shape().clone().to_vec();
@@ -194,7 +194,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let mut traindata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 		let mut traindata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
-		
+
 		let mut validationdata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 		let mut validationdata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
 
@@ -207,8 +207,11 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..train_x_dims[3]
 		{
-			let X = train_x.index_axis(Axis(3), traj).to_owned().into_raw_vec();
-			let Y = train_y.index_axis(Axis(3), traj).to_owned().into_raw_vec();
+			let X = train_x.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
+			let Y = train_y.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
+
+println!("X.len() {}",X.len());
+
 
 			traindata_X.insert(traj as u64, X);
 			traindata_Y.insert(traj as u64, Y);
@@ -216,8 +219,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..crossval_x_dims[3]
 		{
-			let X = crossval_x.index_axis(Axis(3), traj).to_owned().into_raw_vec();
-			let Y = crossval_y.index_axis(Axis(3), traj).to_owned().into_raw_vec();
+			let X = crossval_x.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
+			let Y = crossval_y.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
+
+
 
 			validationdata_X.insert(traj as u64, X);
 			validationdata_Y.insert(traj as u64, Y);
@@ -232,10 +237,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			raybnn::interface::autotrain_f32::train_network(
 				&traindata_X,
 				&traindata_Y,
-			
+
 				&validationdata_X,
 				&validationdata_Y,
-			
+
 				raybnn::optimal::loss_f32::MSE,
 				raybnn::optimal::loss_f32::MSE_grad,
 
@@ -253,10 +258,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			raybnn::interface::autotrain_f32::train_network(
 				&traindata_X,
 				&traindata_Y,
-			
+
 				&validationdata_X,
 				&validationdata_Y,
-			
+
 				raybnn::optimal::loss_f32::softmax_cross_entropy,
 				raybnn::optimal::loss_f32::softmax_cross_entropy_grad,
 
@@ -274,10 +279,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			raybnn::interface::autotrain_f32::train_network(
 				&traindata_X,
 				&traindata_Y,
-			
+
 				&validationdata_X,
 				&validationdata_Y,
-			
+
 				raybnn::optimal::loss_f32::sigmoid_cross_entropy,
 				raybnn::optimal::loss_f32::sigmoid_cross_entropy_grad,
 

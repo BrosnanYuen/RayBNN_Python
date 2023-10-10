@@ -138,6 +138,17 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		}
 
 
+		let mut lr_strategy2 = raybnn::interface::autotrain_f32::lr_strategy2_type::BTLS_ALPHA;
+
+		if lr_strategy2_input == "BTLS_ALPHA"
+		{
+			lr_strategy2 = raybnn::interface::autotrain_f32::lr_strategy2_type::BTLS_ALPHA;
+		}
+		else if lr_strategy2_input == "MAX_ALPHA"
+		{
+			lr_strategy2 = raybnn::interface::autotrain_f32::lr_strategy2_type::MAX_ALPHA;
+		}
+
 
 
 
@@ -149,7 +160,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let train_stop_options = raybnn::interface::autotrain_f32::train_network_options_type {
 			stop_strategy: stop_stategy,
 			lr_strategy: lr_strategy,
-			lr_strategy2: raybnn::interface::autotrain_f32::lr_strategy2_type::BTLS_ALPHA,
+			lr_strategy2: lr_strategy2,
 
 			max_epoch: max_epoch,
 			stop_epoch: stop_epoch,

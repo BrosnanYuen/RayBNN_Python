@@ -197,9 +197,15 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..train_x_dims[2]
 		{
-			let X = train_x.as_array().index_axis(Axis(2), traj);
-			
+			let X = train_x.as_array().index_axis(Axis(2), traj).to_slice().unwrap().to_vec();
+			let Y = train_y.as_array().index_axis(Axis(2), traj).to_slice().unwrap().to_vec();
+
+			traindata_X.insert(traj as u64, X);
+			traindata_Y.insert(traj as u64, Y);
 		}
+
+
+		
 
 		if loss_function == "MSE"
 		{

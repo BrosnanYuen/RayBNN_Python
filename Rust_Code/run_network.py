@@ -39,7 +39,7 @@ def main():
     lr_strategy = "COSINE_ANNEALING"
     lr_strategy2 = "BTLS_ALPHA"
 
-    loss_function = "MAE"
+    loss_function = "MSE"
 
     max_epoch = 10000
     stop_epoch = 10000

@@ -84,11 +84,11 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		crossval_x: PyReadonlyArray3<'py, f32>,
         crossval_y: PyReadonlyArray3<'py, f32>,
 
-		stop_strategy: String,
-		lr_strategy: String,
-		lr_strategy2: String,
+		stop_strategy_input: String,
+		lr_strategy_input: String,
+		lr_strategy2_input: String,
 
-		loss_function: String,
+		loss_function_input: String,
 	
 		max_epoch: u64,
 		stop_epoch: u64,
@@ -100,13 +100,26 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		model: Py<PyAny>
     ) -> Py<PyAny> {
 
+		let mut stop_stategy = raybnn::interface::autotrain_f32::stop_strategy_type::NONE;
+
+		if stop_strategy_input == "NONE"
+		{
+			stop_stategy = raybnn::interface::autotrain_f32::stop_strategy_type::NONE;
+		}
+		else if stop_strategy_input == "STOP_AT_EPOCH"
+		{
+			stop_stategy = raybnn::interface::autotrain_f32::stop_strategy_type::STOP_AT_EPOCH;
+		}
+
+
+
 		arrayfire::set_backend(arrayfire::Backend::CUDA);
 
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
 		//Train Options
 		let train_stop_options = raybnn::interface::autotrain_f32::train_network_options_type {
-			stop_strategy: raybnn::interface::autotrain_f32::stop_strategy_type::STOP_AT_TRAIN_LOSS,
+			stop_strategy: stop_stategy,
 			lr_strategy: raybnn::interface::autotrain_f32::lr_strategy_type::NONE,
 			lr_strategy2: raybnn::interface::autotrain_f32::lr_strategy2_type::BTLS_ALPHA,
 

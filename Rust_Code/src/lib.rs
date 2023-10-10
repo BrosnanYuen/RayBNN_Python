@@ -43,10 +43,12 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		batch_size: u64,
 		traj_size: u64,
 
-		dir_path:  &str
+		directory_path:  String
     ) -> Py<PyAny> {
 
 		arrayfire::set_backend(arrayfire::Backend::CUDA);
+
+		let dir_path = directory_path.clone();
 
 		let mut arch_search = raybnn::interface::automatic_f32::create_start_archtecture(
 
@@ -61,7 +63,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			batch_size,
 			traj_size,
 
-			dir_path
+			&dir_path
 		);
 
 		let obj = pythonize(py, &arch_search).unwrap();
@@ -76,7 +78,16 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     fn train_network<'py>(
         py: Python<'py>,
 
-
+		stop_strategy: String,
+		lr_strategy: String,
+		lr_strategy2: String,
+	
+		max_epoch: u64,
+		stop_epoch: u64,
+		stop_train_loss: f32,
+	
+		exit_counter_threshold: u64,
+		shuffle_counter_threshold: u64,
 
 		model: Py<PyAny>
     ) -> Py<PyAny> {

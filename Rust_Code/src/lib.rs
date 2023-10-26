@@ -22,7 +22,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
         py: Python<'py>,
 		model: Py<PyAny>
     ) {
-		arrayfire::set_backend(arrayfire::Backend::CUDA);
+		arrayfire::set_backend(arrayfire::Backend::OPENCL);
 
 		let arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
@@ -48,7 +48,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		directory_path:  String
     ) -> Py<PyAny> {
 
-		arrayfire::set_backend(arrayfire::Backend::CUDA);
+		arrayfire::set_backend(arrayfire::Backend::OPENCL);
 
 		let dir_path = directory_path.clone();
 
@@ -154,7 +154,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 
 
-		arrayfire::set_backend(arrayfire::Backend::CUDA);
+		arrayfire::set_backend(arrayfire::Backend::OPENCL);
 
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
@@ -323,7 +323,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     ) -> Py<PyAny> {
 
 
-		arrayfire::set_backend(arrayfire::Backend::CUDA);
+		arrayfire::set_backend(arrayfire::Backend::OPENCL);
 
 		let x_dims = x.shape().clone().to_vec();
         let x = x.to_vec().unwrap();
@@ -347,7 +347,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
         y: PyReadonlyArray2<'py, f64>,
     ) -> &'py PyArray2<f64> {
 
-		arrayfire::set_backend(arrayfire::Backend::CUDA);
+		arrayfire::set_backend(arrayfire::Backend::OPENCL);
 
 		let x_dims = x.shape().clone().to_vec();
         let x = x.to_vec().unwrap();

@@ -11,7 +11,7 @@ print(x)
 
 print("Rust")
 
-z = raybnn_python.magic2(x, y)
+z = raybnn_python.magic2(x)
 
 print(z)
 

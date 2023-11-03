@@ -208,6 +208,13 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..train_x_dims[3]
 		{
+			//let x_dims = x.shape().clone().to_vec();
+			//let x = x.reshape_with_order([x_dims[0],x_dims[2],x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+	
+	
+
+			let train_x_dims = train_x.shape().clone().to_vec();
+			let train_y_dims = train_y.shape().clone().to_vec();
 			let X = train_x.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
 			let Y = train_y.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
 

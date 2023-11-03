@@ -1,7 +1,7 @@
 // We need to link `blas_src` directly, c.f. https://github.com/rust-ndarray/ndarray#how-to-enable-blas-integration
 extern crate blas_src;
 
-use numpy;
+use numpy::{self, IntoPyArray};
 use numpy::ndarray::Zip;
 use numpy::{PyReadonlyArray3, PyArray1, PyArray2, PyReadonlyArray4, PyReadonlyArray2, PyArray};
 use pyo3::{pymodule, types::PyModule, PyResult, Python, PyObject, PyAny, Py};
@@ -208,15 +208,12 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..train_x_dims[3]
 		{
-			//let x_dims = x.shape().clone().to_vec();
-			//let x = x.reshape_with_order([x_dims[0],x_dims[2],x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
-	
-	
+
 
 			let train_x_dims = train_x.shape().clone().to_vec();
 			let train_y_dims = train_y.shape().clone().to_vec();
-			let X = train_x.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
-			let Y = train_y.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
+			let X = train_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_x_dims[0],train_x_dims[2],train_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+			let Y = train_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_y_dims[0],train_y_dims[2],train_y_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
 
 
 
@@ -227,8 +224,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		for traj in 0..crossval_x_dims[3]
 		{
-			let X = crossval_x.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
-			let Y = crossval_y.index_axis(Axis(3), traj).to_owned().as_slice().to_owned().unwrap().to_vec();
+			let crossval_x_dims = crossval_x.shape().clone().to_vec();
+			let crossval_y_dims = crossval_y.shape().clone().to_vec();
+			let X = crossval_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_x_dims[0],crossval_x_dims[2],crossval_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+			let Y = crossval_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_y_dims[0],crossval_y_dims[2],crossval_y_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
 
 
 

@@ -325,12 +325,16 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		arrayfire::set_backend(arrayfire::Backend::CUDA);
 
 		let x_dims = x.shape().clone().to_vec();
-        let x = x.reshape_with_order([2,3,5], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+        let x = x.reshape_with_order([x_dims[0],x_dims[2],x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
 
 
-		let mut a = arrayfire::Array::new(&x, arrayfire::Dim4::new(&[2, 3, 5, 1]));
+		let mut a = arrayfire::Array::new(&x, arrayfire::Dim4::new(&[x_dims[0] as u64, x_dims[1] as u64, x_dims[2] as u64, 1]));
 		arrayfire::print_gen("a".to_string(), &a, Some(6));
 
+		let mut b = arrayfire::row(&a,1);
+		b = arrayfire::col(&b,0);
+		b = arrayfire::slice(&b,3);
+		arrayfire::print_gen("b".to_string(), &b, Some(6));
 
 		let obj = pythonize(py, &a).unwrap();
 

@@ -8,6 +8,7 @@ x = np.random.rand(2,3,5).astype(np.float32)
 
 
 print(x)
+print(x[1][0][3])
 
 print("Rust")
 

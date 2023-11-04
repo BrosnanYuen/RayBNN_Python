@@ -319,24 +319,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     fn test_network<'py>(
         py: Python<'py>,
 
-		train_x: PyReadonlyArray4<'py, f32>,
-        train_y: PyReadonlyArray4<'py, f32>,
-
-		crossval_x: PyReadonlyArray4<'py, f32>,
-        crossval_y: PyReadonlyArray4<'py, f32>,
-
-		stop_strategy_input: String,
-		lr_strategy_input: String,
-		lr_strategy2_input: String,
+		validationdata_x: PyReadonlyArray4<'py, f32>,
+        validationdata_y: PyReadonlyArray4<'py, f32>,
 
 		loss_function: String,
-
-		max_epoch: u64,
-		stop_epoch: u64,
-		stop_train_loss: f32,
-
-		exit_counter_threshold: u64,
-		shuffle_counter_threshold: u64,
 
 		model: Py<PyAny>
     ) -> PyArray4<f64> {

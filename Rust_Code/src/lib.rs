@@ -3,7 +3,7 @@ extern crate blas_src;
 
 use numpy::{self, IntoPyArray};
 use numpy::ndarray::Zip;
-use numpy::{PyReadonlyArray3, PyArray1, PyArray2, PyReadonlyArray4, PyReadonlyArray2, PyArray};
+use numpy::{PyReadonlyArray3, PyArray4, PyArray2, PyReadonlyArray4, PyReadonlyArray2, PyArray};
 use pyo3::{pymodule, types::PyModule, PyResult, Python, PyObject, PyAny, Py};
 
 use arrayfire;
@@ -315,6 +315,34 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 
 
+	#[pyfn(m)]
+    fn test_network<'py>(
+        py: Python<'py>,
+
+		train_x: PyReadonlyArray4<'py, f32>,
+        train_y: PyReadonlyArray4<'py, f32>,
+
+		crossval_x: PyReadonlyArray4<'py, f32>,
+        crossval_y: PyReadonlyArray4<'py, f32>,
+
+		stop_strategy_input: String,
+		lr_strategy_input: String,
+		lr_strategy2_input: String,
+
+		loss_function: String,
+
+		max_epoch: u64,
+		stop_epoch: u64,
+		stop_train_loss: f32,
+
+		exit_counter_threshold: u64,
+		shuffle_counter_threshold: u64,
+
+		model: Py<PyAny>
+    ) -> PyArray4<f64> {
+
+
+	}
 
 
 

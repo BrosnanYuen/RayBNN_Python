@@ -319,8 +319,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
     fn test_network<'py>(
         py: Python<'py>,
 
-		validationdata_x: PyReadonlyArray4<'py, f32>,
-        validationdata_y: PyReadonlyArray4<'py, f32>,
+		test_x: PyReadonlyArray4<'py, f32>,
+        test_y: PyReadonlyArray4<'py, f32>,
 
 		loss_function: String,
 

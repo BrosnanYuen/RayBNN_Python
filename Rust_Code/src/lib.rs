@@ -358,7 +358,14 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		if loss_function == "MSE"
 		{
 			//Train network, stop at lowest crossval
-			
+			raybnn::interface::autotest_f32::validate_network(
+				validationdata_X,
+				validationdata_Y,
+
+				raybnn::optimal::loss_f32::MSE, 
+				arch_search, Yhat_out, 
+				eval_metric_out
+			);
 		}
 		else if loss_function == "softmax_cross_entropy"
 		{
@@ -369,7 +376,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			
 		}
 
-		
+
 
 	}
 

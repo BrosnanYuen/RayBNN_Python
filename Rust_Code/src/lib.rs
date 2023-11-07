@@ -360,18 +360,20 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			validationdata_Y.insert(traj as u64, Y);
 		}
 
-
+		let mut eval_metric_out = Vec::new();
+		let mut Yhat_out = nohash_hasher::IntMap::default();
+		
 		if loss_function == "MSE"
 		{
 			//Train network, stop at lowest crossval
 			raybnn::interface::autotest_f32::validate_network(
-				validationdata_X,
-				validationdata_Y,
+				&mut validationdata_X,
+				&mut validationdata_Y,
 
 				raybnn::optimal::loss_f32::MSE, 
 				&mut arch_search, 
-				Yhat_out, 
-				eval_metric_out
+				&mut Yhat_out, 
+				&mut eval_metric_out
 			);
 		}
 		else if loss_function == "softmax_cross_entropy"

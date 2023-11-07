@@ -325,7 +325,35 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		loss_function: String,
 
 		model: Py<PyAny>
-    ) -> PyArray4<f64> {
+    )  {
+
+
+
+		let test_x_dims = test_x.shape().clone().to_vec();
+		let test_y_dims = test_y.shape().clone().to_vec();
+
+
+		let mut validationdata_X: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
+		let mut validationdata_Y: nohash_hasher::IntMap<u64, Vec<f32> > = nohash_hasher::IntMap::default();
+
+
+		let test_x = test_x.to_owned_array() ;
+		let test_y = test_y.to_owned_array() ;
+
+		
+		for traj in 0..test_x_dims[3]
+		{
+			let test_x_dims = test_x.shape().clone().to_vec();
+			let test_y_dims = test_y.shape().clone().to_vec();
+			let X = test_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([test_x_dims[0],test_x_dims[2],test_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+			let Y = test_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([test_y_dims[0],test_y_dims[2],test_y_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+
+
+
+			validationdata_X.insert(traj as u64, X);
+			validationdata_Y.insert(traj as u64, Y);
+		}
+
 
 
 	}

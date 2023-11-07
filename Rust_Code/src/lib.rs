@@ -329,6 +329,12 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 
 
+		arrayfire::set_backend(arrayfire::Backend::CUDA);
+		arrayfire::device_gc();
+
+		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
+
+
 		let test_x_dims = test_x.shape().clone().to_vec();
 		let test_y_dims = test_y.shape().clone().to_vec();
 
@@ -363,7 +369,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 				validationdata_Y,
 
 				raybnn::optimal::loss_f32::MSE, 
-				arch_search, Yhat_out, 
+				&mut arch_search, 
+				Yhat_out, 
 				eval_metric_out
 			);
 		}

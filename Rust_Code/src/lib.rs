@@ -355,6 +355,21 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		}
 
 
+		if loss_function == "MSE"
+		{
+			//Train network, stop at lowest crossval
+			
+		}
+		else if loss_function == "softmax_cross_entropy"
+		{
+			
+		}
+		else if loss_function == "sigmoid_cross_entropy"
+		{
+			
+		}
+
+		
 
 	}
 

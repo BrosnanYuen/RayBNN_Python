@@ -86,8 +86,6 @@ def main():
 		test_x,
         test_y,
 
-		"MSE",
-
 		arch_search
     )
 

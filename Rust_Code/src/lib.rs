@@ -322,7 +322,6 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		test_x: PyReadonlyArray4<'py, f32>,
         test_y: PyReadonlyArray4<'py, f32>,
 
-		loss_function: String,
 
 		model: Py<PyAny>
     )  {
@@ -363,28 +362,18 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let mut eval_metric_out = Vec::new();
 		let mut Yhat_out = nohash_hasher::IntMap::default();
 		
-		if loss_function == "MSE"
-		{
-			//Train network, stop at lowest crossval
-			raybnn::interface::autotest_f32::validate_network(
-				&mut validationdata_X,
-				&mut validationdata_Y,
 
-				raybnn::optimal::loss_f32::MSE, 
-				&mut arch_search, 
-				&mut Yhat_out, 
-				&mut eval_metric_out
-			);
-		}
-		else if loss_function == "softmax_cross_entropy"
-		{
-			
-		}
-		else if loss_function == "sigmoid_cross_entropy"
-		{
-			
-		}
+		//Train network, stop at lowest crossval
+		raybnn::interface::autotest_f32::validate_network(
+			&mut validationdata_X,
+			&mut validationdata_Y,
 
+			raybnn::optimal::loss_f32::MSE, 
+			&mut arch_search, 
+			&mut Yhat_out, 
+			&mut eval_metric_out
+		);
+	
 
 
 	}

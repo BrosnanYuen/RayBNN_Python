@@ -80,11 +80,9 @@ def main():
     )
 
     test_x = np.random.rand(input_size,batch_size,traj_size,testing_samples).astype(np.float32)
-    test_y = np.random.rand(output_size,batch_size,traj_size,testing_samples).astype(np.float32)
-
+ 
     raybnn_python.test_network(
 		test_x,
-        test_y,
 
 		arch_search
     )

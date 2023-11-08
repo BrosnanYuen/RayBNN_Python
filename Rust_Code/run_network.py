@@ -78,7 +78,17 @@ def main():
 		arch_search
     )
 
+    raybnn_python.train_network(
+		test_x,
+        test_y,
 
+		"MSE",
+
+		arch_search
+    )
+
+
+    
 if __name__ == '__main__':
     main()
 

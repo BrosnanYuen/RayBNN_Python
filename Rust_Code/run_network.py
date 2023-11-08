@@ -20,6 +20,7 @@ def main():
 
     training_samples = 50
     crossval_samples = 70
+    testing_samples = 30
 
 
     arch_search = raybnn_python.create_start_archtecture(input_size,
@@ -78,7 +79,10 @@ def main():
 		arch_search
     )
 
-    raybnn_python.train_network(
+    test_x = np.random.rand(input_size,batch_size,traj_size,testing_samples).astype(np.float32)
+    test_y = np.random.rand(output_size,batch_size,traj_size,testing_samples).astype(np.float32)
+
+    raybnn_python.test_network(
 		test_x,
         test_y,
 
@@ -88,7 +92,7 @@ def main():
     )
 
 
-    
+
 if __name__ == '__main__':
     main()
 

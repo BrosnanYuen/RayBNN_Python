@@ -372,14 +372,19 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		arrayfire::print_gen("Yhat_arr".to_string(), &Yhat_arr,Some(6));
 
+		let mut Yhat_vec = vec!(f32::default();Yhat_arr.elements());
+		Yhat_arr.host(&mut Yhat_vec);
+
 		let arr = unsafe {
 			let arr = PyArray4::<f32>::new(py, [Yhat_dims[0] as usize, Yhat_dims[1] as usize, Yhat_dims[2] as usize, Yhat_dims[3] as usize], true);
 	
+			let mut counter = 0;
 			for i in 0..(Yhat_dims[0] as usize) {
 				for j in 0..(Yhat_dims[1] as usize) {
 					for k in 0..(Yhat_dims[2] as usize) {
 						for v in 0..(Yhat_dims[3] as usize) {
-							arr.uget_raw([i, j, k, v]).write(12.0);
+							arr.uget_raw([i, j, k, v]).write(Yhat_vec[counter]);
+							counter = counter + 1;
 						}
 					}
 				}

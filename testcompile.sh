@@ -22,8 +22,7 @@ cd /scratch/brosnany/
 source ./magic/bin/activate
 cd Rust_Code
 pip install maturin numpy patchelf
-maturin build
 maturin develop
 python3 ./example.py
 python3 ./run_network.py
-
+maturin build

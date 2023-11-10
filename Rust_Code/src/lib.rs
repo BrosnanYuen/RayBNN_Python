@@ -366,7 +366,11 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			&mut Yhat_out, 
 		);
 	
-
+		let arr = unsafe {
+			let arr = PyArray4::<f32>::new(py, [2, 3, 5, 7], true);
+	
+			arr
+		};
 
 	}
 

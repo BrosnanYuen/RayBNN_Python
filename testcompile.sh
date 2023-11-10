@@ -19,11 +19,12 @@ nvidia-smi
 cd /scratch/brosnany/
 #rm -rf ./magic/
 #virtualenv magic
-source ./magic/bin/activate
-rm -rf ./Rust_Code/target/
-cd Rust_Code
+source /scratch/brosnany/magic/bin/activate
+rm -rf /scratch/brosnany/Rust_Code/target/
+cd /scratch/brosnany/Rust_Code
 pip install maturin numpy patchelf
 maturin develop
 python3 ./example.py
 python3 ./run_network.py
+rm -rf /scratch/brosnany/Rust_Code/target/
 maturin build

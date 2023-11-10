@@ -366,6 +366,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			&mut Yhat_out, 
 		);
 
+		/* 
 		arrayfire::set_seed(0);
 		let Yhat_dims = arrayfire::Dim4::new(&[2, 3, 5, 7]);
 		let Yhat_arr = arrayfire::randu::<f32>(Yhat_dims);
@@ -374,6 +375,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let mut Yhat_vec = vec!(f32::default();Yhat_arr.elements());
 		Yhat_arr.host(&mut Yhat_vec);
+		*/
 
 		let arr = unsafe {
 

@@ -383,9 +383,9 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			let dim2 = Yhat_dims[2] as usize;
 			let dim3 = Yhat_dims[3] as usize;
 
-			for i in 0..(Yhat_dims[0] as usize) {
-				for j in 0..(Yhat_dims[1] as usize) {
-					for k in 0..(Yhat_dims[2] as usize) {
+			for i in 0..dim0 {
+				for j in 0..dim1 {
+					for k in 0..dim2 {
 						arr.uget_raw([i, j, k, l]).write(Yhat_vec[i + (dim0*j) + (dim0*dim1*k) + (dim0*dim1*dim2*l)]);
 					}
 				}

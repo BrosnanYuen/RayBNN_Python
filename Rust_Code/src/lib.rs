@@ -396,7 +396,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 				for i in 0..dim0 {
 					for j in 0..dim1 {
 						for k in 0..dim2 {
-							arr.uget_raw([i, j, k, l]).write(Yhat_vec[i + (dim0*j) + (dim0*dim1*k) + (dim0*dim1*dim2*l)]);
+							arr.uget_raw([i, j, k, l]).write(Yhat_vec[i + (dim0*j) + (dim0*dim1*k) ]);
 						}
 					}
 				}

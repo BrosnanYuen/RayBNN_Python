@@ -378,10 +378,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let arr = unsafe {
 			let arr = PyArray4::<f32>::new(py, [Yhat_dims[0] as usize, Yhat_dims[1] as usize, Yhat_dims[2] as usize, Yhat_dims[3] as usize], true);
 	
-			let dim0 = Yhat_dims[0] as usize;
-			let dim1 = Yhat_dims[1] as usize;
-			let dim2 = Yhat_dims[2] as usize;
-			let dim3 = Yhat_dims[3] as usize;
+			let dim0 = arch_search.neural_network.netdata.output_size as usize;
+			let dim1 = test_x_dims[1] as usize;
+			let dim2 = test_x_dims[2] as usize;
+			let dim3 = test_x_dims[3] as usize;
 
 			for i in 0..dim0 {
 				for j in 0..dim1 {

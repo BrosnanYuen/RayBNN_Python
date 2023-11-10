@@ -365,9 +365,13 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 			&mut Yhat_out, 
 		);
+
+		arrayfire::set_seed(0);
+		let Yhat_dims = arrayfire::Dim4::new(&[2, 3, 5, 7]);
+		let Yhat_arr = arrayfire::randu::<f32>(Yhat_dims);
 	
 		let arr = unsafe {
-			let arr = PyArray4::<f32>::new(py, [2, 3, 5, 7], true);
+			let arr = PyArray4::<f32>::new(py, [Yhat_dims[0] as usize, Yhat_dims[1] as usize, Yhat_dims[2] as usize, Yhat_dims[3] as usize], true);
 	
 			arr
 		};

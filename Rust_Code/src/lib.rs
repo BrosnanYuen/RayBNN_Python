@@ -369,12 +369,27 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		arrayfire::set_seed(0);
 		let Yhat_dims = arrayfire::Dim4::new(&[2, 3, 5, 7]);
 		let Yhat_arr = arrayfire::randu::<f32>(Yhat_dims);
-	
+
+		arrayfire::print_gen("Yhat_arr".to_string(), &Yhat_arr,Some(6));
+
 		let arr = unsafe {
 			let arr = PyArray4::<f32>::new(py, [Yhat_dims[0] as usize, Yhat_dims[1] as usize, Yhat_dims[2] as usize, Yhat_dims[3] as usize], true);
 	
+			for i in 0..4 {
+				for j in 0..5 {
+					for k in 0..6 {
+						for v in 0..6 {
+							arr.uget_raw([i, j, k, v]).write((i * j * k) as f32);
+						}
+					}
+				}
+			}
+
 			arr
 		};
+
+
+
 
 	}
 

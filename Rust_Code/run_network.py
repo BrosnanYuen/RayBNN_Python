@@ -57,35 +57,37 @@ def main():
 
 
     arch_search = raybnn_python.train_network(
-		train_x,
+		    train_x,
         train_y,
 
-		crossval_x,
+		    crossval_x,
         crossval_y,
 
-		stop_strategy,
-		lr_strategy,
-		lr_strategy2,
+        stop_strategy,
+        lr_strategy,
+        lr_strategy2,
 
-		loss_function,
-	
-		max_epoch,
-		stop_epoch,
-		stop_train_loss,
-	
-		exit_counter_threshold,
-		shuffle_counter_threshold,
+        loss_function,
+      
+        max_epoch,
+        stop_epoch,
+        stop_train_loss,
+      
+        exit_counter_threshold,
+        shuffle_counter_threshold,
 
-		arch_search
+        arch_search
     )
 
     test_x = np.random.rand(input_size,batch_size,traj_size,testing_samples).astype(np.float32)
  
-    raybnn_python.test_network(
-		test_x,
+    output_y = raybnn_python.test_network(
+        test_x,
 
-		arch_search
+        arch_search
     )
+
+    print(output_y)
 
 
 

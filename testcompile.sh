@@ -20,6 +20,7 @@ cd /scratch/brosnany/
 #rm -rf ./magic/
 #virtualenv magic
 source ./magic/bin/activate
+rm -rf ./Rust_Code/target/
 cd Rust_Code
 pip install maturin numpy patchelf
 maturin develop

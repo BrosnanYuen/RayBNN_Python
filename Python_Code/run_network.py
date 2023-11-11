@@ -1,10 +1,15 @@
 import numpy as np
 import raybnn_python
 
-
+import mnist
 
 
 def main():
+    mnist.init()
+
+    x_train, t_train, x_test, t_test = mnist.load()
+
+
     dir_path = "/tmp/"
 
     max_input_size = 162

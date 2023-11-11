@@ -1,3 +1,6 @@
 Rust_Code/target/
 magic/
 Rust_Code/Cargo.lock
+*.gz
+*.pkl
+Python_Code/__pycache__

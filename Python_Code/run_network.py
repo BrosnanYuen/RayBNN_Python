@@ -16,6 +16,9 @@ def main():
 
     print(y_train)
     print(y_train.shape)
+
+    print(y_test)
+    print(y_test.shape)
     return
 
 
@@ -27,14 +30,14 @@ def main():
     max_output_size = 10
     output_size = 10
 
-    max_neuron_size = 5000
+    max_neuron_size = 15000
 
-    batch_size = 100
-    traj_size = 20
+    batch_size = 1000
+    traj_size = 1
 
-    training_samples = 50
-    crossval_samples = 70
-    testing_samples = 30
+    training_samples = 60
+    crossval_samples = 60
+    testing_samples = 10
 
 
     arch_search = raybnn_python.create_start_archtecture(input_size,

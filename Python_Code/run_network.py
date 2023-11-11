@@ -11,8 +11,18 @@ def main():
 
     x_train, y_train, x_test, y_test = mnist.load()
 
+
+
+    max_value = np.max(x_train)
+    min_value = np.min(x_train)
+    mean_value = np.mean(x_train)
+
+    x_train = (x_train - mean_value)/(max_value - min_value)
+    x_test = (x_test - mean_value)/(max_value - min_value)
+    
     print(x_train)
     print(x_train.shape)
+
 
     print(y_train)
     print(y_train.shape)

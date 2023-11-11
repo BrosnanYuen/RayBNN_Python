@@ -60,6 +60,9 @@ def main():
 
         train_x[:, j , 0, k ] = x_train[i,:]
 
+        idx = y_train[i]
+        train_y[idx , j , 0, k ] = 1.0
+
     return
 
 

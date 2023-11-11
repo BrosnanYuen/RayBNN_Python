@@ -53,8 +53,12 @@ def main():
     crossval_x = np.zeros((input_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
     crossval_y = np.zeros((output_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
 
+
     for i in range(x_train.shape[0]):
-        train_x[:, (i % batch_size) , 0, (i/batch_size) ] = x_train[i,:]
+        j = (i % batch_size)
+        k = int(i/batch_size)
+
+        train_x[:, j , 0, k ] = x_train[i,:]
 
     return
 

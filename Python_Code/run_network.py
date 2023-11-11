@@ -50,10 +50,6 @@ def main():
     train_x = np.zeros((input_size,batch_size,traj_size,training_samples)).astype(np.float32)
     train_y = np.zeros((output_size,batch_size,traj_size,training_samples)).astype(np.float32)
 
-    crossval_x = np.zeros((input_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
-    crossval_y = np.zeros((output_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
-
-
     for i in range(x_train.shape[0]):
         j = (i % batch_size)
         k = int(i/batch_size)
@@ -63,7 +59,8 @@ def main():
         idx = y_train[i]
         train_y[idx , j , 0, k ] = 1.0
 
-    return
+    crossval_x = np.copy(train_x)
+    crossval_y = np.copy(train_y)
 
 
 

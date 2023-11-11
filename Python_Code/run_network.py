@@ -74,14 +74,14 @@ def main():
 
 
     stop_strategy = "STOP_AT_TRAIN_LOSS"
-    lr_strategy = "COSINE_ANNEALING"
+    lr_strategy = "NONE"
     lr_strategy2 = "BTLS_ALPHA"
 
-    loss_function = "MSE"
+    loss_function = "sigmoid_cross_entropy"
 
     max_epoch = 10000
     stop_epoch = 10000
-    stop_train_loss = 0.001
+    stop_train_loss = 0.0001
 
     exit_counter_threshold = 5
     shuffle_counter_threshold = 10000

@@ -86,6 +86,8 @@ def main():
 		neuron_rad*60.0,
 		neuron_rad*60.0,
 		neuron_rad*60.0,
+
+        arch_search,
     )
 
     raybnn_python.print_model_info(arch_search)

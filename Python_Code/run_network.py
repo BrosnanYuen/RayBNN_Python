@@ -74,10 +74,10 @@ def main():
 
 
     arch_search = raybnn_python.train_network(
-		train_x,
+        train_x,
         train_y,
 
-		crossval_x,
+        crossval_x,
         crossval_y,
 
         stop_strategy,

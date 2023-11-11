@@ -130,7 +130,14 @@ def main():
         arch_search
     )
 
-    print(output_y)
+    print(output_y.shape)
+
+    for i in range(x_test.shape[0]):
+        j = (i % batch_size)
+        k = int(i/batch_size)
+
+        sample = output_y[:, j , 0, k ]
+        print(sample)
 
 
 

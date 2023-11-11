@@ -73,7 +73,7 @@ def main():
                                                         traj_size,
                                                         dir_path)
 
-
+    arch_search["neural_network"]["netdata"]["proc_num"] = 4
     raybnn_python.print_model_info(arch_search)
 
 

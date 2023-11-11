@@ -117,6 +117,13 @@ def main():
 
     test_x = np.zeros((input_size,batch_size,traj_size,testing_samples)).astype(np.float32)
  
+    for i in range(x_test.shape[0]):
+        j = (i % batch_size)
+        k = int(i/batch_size)
+
+        test_x[:, j , 0, k ] = x_test[i,:]
+
+
     output_y = raybnn_python.test_network(
         test_x,
 

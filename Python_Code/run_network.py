@@ -17,9 +17,9 @@ def main():
     min_value = np.min(x_train)
     mean_value = np.mean(x_train)
 
-    x_train = (x_train - mean_value)/(max_value - min_value)
-    x_test = (x_test - mean_value)/(max_value - min_value)
-    
+    x_train = (x_train.astype(np.float32) - mean_value)/(max_value - min_value)
+    x_test = (x_test.astype(np.float32) - mean_value)/(max_value - min_value)
+
     print(x_train)
     print(x_train.shape)
 
@@ -29,6 +29,16 @@ def main():
 
     print(y_test)
     print(y_test.shape)
+
+
+    train_x = np.zeros((input_size,batch_size,traj_size,training_samples)).astype(np.float32)
+    train_y = np.zeros((output_size,batch_size,traj_size,training_samples)).astype(np.float32)
+
+    crossval_x = np.zeros((input_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
+    crossval_y = np.zeros((output_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
+
+
+
     return
 
 
@@ -76,11 +86,6 @@ def main():
     exit_counter_threshold = 5
     shuffle_counter_threshold = 10000
 
-    train_x = np.random.rand(input_size,batch_size,traj_size,training_samples).astype(np.float32)
-    train_y = np.random.rand(output_size,batch_size,traj_size,training_samples).astype(np.float32)
-
-    crossval_x = np.random.rand(input_size,batch_size,traj_size,crossval_samples).astype(np.float32)
-    crossval_y = np.random.rand(output_size,batch_size,traj_size,crossval_samples).astype(np.float32)
 
 
     arch_search = raybnn_python.train_network(

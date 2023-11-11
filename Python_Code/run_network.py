@@ -115,7 +115,7 @@ def main():
         arch_search
     )
 
-    test_x = np.random.rand(input_size,batch_size,traj_size,testing_samples).astype(np.float32)
+    test_x = np.zeros((input_size,batch_size,traj_size,testing_samples)).astype(np.float32)
  
     output_y = raybnn_python.test_network(
         test_x,

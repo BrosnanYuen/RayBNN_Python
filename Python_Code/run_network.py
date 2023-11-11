@@ -2,7 +2,7 @@ import numpy as np
 import raybnn_python
 import mnist
 import os 
-
+from sklearn.metrics import accuracy_score
 
 def main():
 
@@ -14,7 +14,7 @@ def main():
 
     max_value = np.max(x_train)
     min_value = np.min(x_train)
-    mean_value = np.mean(x_train)
+    mean_value = (max_value+min_value)/2
 
     x_train = (x_train.astype(np.float32) - mean_value)/(max_value - min_value)
     x_test = (x_test.astype(np.float32) - mean_value)/(max_value - min_value)
@@ -148,12 +148,21 @@ def main():
 
     print(output_y.shape)
 
+    pred = []
     for i in range(x_test.shape[0]):
         j = (i % batch_size)
         k = int(i/batch_size)
 
         sample = output_y[:, j , 0, k ]
         print(sample)
+
+        pred.append(np.argmax(sample))
+
+
+    acc = accuracy_score(y_test, pred)
+
+    print(acc)
+
 
 
 

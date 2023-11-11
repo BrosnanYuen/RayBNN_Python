@@ -12,7 +12,6 @@ def main():
     x_train, y_train, x_test, y_test = mnist.load()
 
 
-
     max_value = np.max(x_train)
     min_value = np.min(x_train)
     mean_value = np.mean(x_train)
@@ -23,23 +22,11 @@ def main():
     print(x_train)
     print(x_train.shape)
 
-
     print(y_train)
     print(y_train.shape)
 
     print(y_test)
     print(y_test.shape)
-
-
-    train_x = np.zeros((input_size,batch_size,traj_size,training_samples)).astype(np.float32)
-    train_y = np.zeros((output_size,batch_size,traj_size,training_samples)).astype(np.float32)
-
-    crossval_x = np.zeros((input_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
-    crossval_y = np.zeros((output_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
-
-
-
-    return
 
 
     dir_path = "/tmp/"
@@ -58,6 +45,19 @@ def main():
     training_samples = 60
     crossval_samples = 60
     testing_samples = 10
+
+
+    train_x = np.zeros((input_size,batch_size,traj_size,training_samples)).astype(np.float32)
+    train_y = np.zeros((output_size,batch_size,traj_size,training_samples)).astype(np.float32)
+
+    crossval_x = np.zeros((input_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
+    crossval_y = np.zeros((output_size,batch_size,traj_size,crossval_samples)).astype(np.float32)
+
+    for i in range(x_train.shape[0]):
+        train_x[:, (i % batch_size) , 0, (i/batch_size) ] = x_train[i,:]
+
+    return
+
 
 
     arch_search = raybnn_python.create_start_archtecture(input_size,

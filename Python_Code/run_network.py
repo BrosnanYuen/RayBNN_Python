@@ -64,16 +64,30 @@ def main():
 
 
 
-    arch_search = raybnn_python.create_start_archtecture(input_size,
-                                                        max_input_size,
-                                                        output_size,
-                                                        max_output_size,
-                                                        max_neuron_size,
-                                                        batch_size,
-                                                        traj_size,
-                                                        dir_path)
+    arch_search = raybnn_python.create_start_archtecture(
+        input_size,
+        max_input_size,
+        output_size,
+        max_output_size,
+        max_neuron_size,
+        batch_size,
+        traj_size,
+        dir_path
+    )
 
+
+    neuron_rad = arch_search["neural_network"]["netdata"]["neuron_rad"]
     arch_search["neural_network"]["netdata"]["proc_num"] = 4
+
+
+    arch_search = raybnn_python.add_neuron_to_existing3(
+        15000,
+		30,
+		neuron_rad*60.0,
+		neuron_rad*60.0,
+		neuron_rad*60.0,
+    )
+
     raybnn_python.print_model_info(arch_search)
 
 

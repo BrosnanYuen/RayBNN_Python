@@ -103,7 +103,7 @@ def main():
     stop_epoch = 10000
     stop_train_loss = 0.0001
 
-    exit_counter_threshold = 5
+    exit_counter_threshold = 100
     shuffle_counter_threshold = 10000
 
 

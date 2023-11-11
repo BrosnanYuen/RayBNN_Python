@@ -36,6 +36,13 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 	#[pyfn(m)]
     fn add_neuron_to_existing3<'py>(
         py: Python<'py>,
+
+		new_active_size: u64,
+		init_connection_num: u64,
+		input_neuron_con_rad: f32,
+		hidden_neuron_con_rad: f32,
+		output_neuron_con_rad: f32,
+
 		model: Py<PyAny>
     ) -> Py<PyAny>{
 		arrayfire::set_backend(arrayfire::Backend::CUDA);
@@ -43,11 +50,30 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
 
+		//Add 30 neurons to existing neural network
+		//Raytrace radius of 40 neuron radius
+		let add_neuron_options: raybnn::physics::update_f32::add_neuron_option_type = raybnn::physics::update_f32::add_neuron_option_type {
+			new_active_size: new_active_size,
+			init_connection_num: init_connection_num,
+			input_neuron_con_rad: input_neuron_con_rad,
+			hidden_neuron_con_rad: hidden_neuron_con_rad,
+			output_neuron_con_rad: output_neuron_con_rad,
+		};
+
+		//Add 30 neurons to existing neural network
+		raybnn::physics::update_f32::add_neuron_to_existing3(
+			&add_neuron_options,
+			&mut arch_search,
+		);
+
 
 		let obj = pythonize(py, &arch_search).unwrap();
 
 		obj
 	}
+
+
+
 
 
 	#[pyfn(m)]

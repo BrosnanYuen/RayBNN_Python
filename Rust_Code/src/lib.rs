@@ -28,6 +28,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
 		raybnn::neural::network_f32::print_netdata(&arch_search.neural_network.netdata);
+
+		println!("WValues.dims()[0] {}",arch_search.neural_network.WColIdx.dims()[0]);
 	}
 
 

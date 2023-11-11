@@ -1,24 +1,33 @@
 import numpy as np
 import raybnn_python
-
 import mnist
+import os 
 
 
 def main():
-    mnist.init()
 
-    x_train, t_train, x_test, t_test = mnist.load()
+    if os.path.isfile("./train-labels-idx1-ubyte.gz") == False:
+        mnist.init()
+
+    x_train, y_train, x_test, y_test = mnist.load()
+
+    print(x_train)
+    print(x_train.shape)
+
+    print(y_train)
+    print(y_train.shape)
+    return
 
 
     dir_path = "/tmp/"
 
-    max_input_size = 162
-    input_size = 162
+    max_input_size = 784
+    input_size = 784
 
-    max_output_size = 2
-    output_size = 2
+    max_output_size = 10
+    output_size = 10
 
-    max_neuron_size = 600
+    max_neuron_size = 5000
 
     batch_size = 100
     traj_size = 20

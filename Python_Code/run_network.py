@@ -97,7 +97,7 @@ def main():
     lr_strategy = "NONE"
     lr_strategy2 = "MAX_ALPHA"
 
-    loss_function = "sigmoid_cross_entropy_10"
+    loss_function = "sigmoid_cross_entropy_5"
 
     max_epoch = 1300
     stop_epoch = 1300

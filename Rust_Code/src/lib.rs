@@ -21,7 +21,7 @@ fn sigmoid_loss(
 	yhat: &arrayfire::Array<f32>,
 	y: &arrayfire::Array<f32>) -> f32
 { 
-	raybnn::optimal::loss_f32::weighted_sigmoid_cross_entropy(yhat, y, 10.0) 
+	raybnn::optimal::loss_f32::weighted_sigmoid_cross_entropy(yhat, y, 5.0) 
 }
 
 
@@ -31,7 +31,7 @@ fn sigmoid_loss_grad(
 	yhat: &arrayfire::Array<f32>,
 	y: &arrayfire::Array<f32>) -> arrayfire::Array<f32> 
 { 
-	raybnn::optimal::loss_f32::weighted_sigmoid_cross_entropy_grad(yhat, y, 10.0) 
+	raybnn::optimal::loss_f32::weighted_sigmoid_cross_entropy_grad(yhat, y, 5.0) 
 }
 
 
@@ -370,7 +370,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 				&mut loss_status
 			);
 		}
-		else if loss_function == "sigmoid_cross_entropy_10"
+		else if loss_function == "sigmoid_cross_entropy_5"
 		{
 			raybnn::interface::autotrain_f32::train_network(
 				&traindata_X,

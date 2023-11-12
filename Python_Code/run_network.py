@@ -93,19 +93,19 @@ def main():
     raybnn_python.print_model_info(arch_search)
 
 
-    stop_strategy = "STOP_AT_TRAIN_LOSS"
+    stop_strategy = "STOP_AT_EPOCH"
     lr_strategy = "NONE"
     lr_strategy2 = "MAX_ALPHA"
 
     loss_function = "sigmoid_cross_entropy_10"
 
-    max_epoch = 10000
-    stop_epoch = 10000
-    stop_train_loss = 0.0001
+    max_epoch = 1300
+    stop_epoch = 1300
+    stop_train_loss = 0.000001
 
     max_alpha = 0.0091
 
-    exit_counter_threshold = 100
+    exit_counter_threshold = 1300
     shuffle_counter_threshold = 10000
 
 

@@ -95,7 +95,7 @@ def main():
 
     stop_strategy = "STOP_AT_TRAIN_LOSS"
     lr_strategy = "NONE"
-    lr_strategy2 = "BTLS_ALPHA"
+    lr_strategy2 = "MAX_ALPHA"
 
     loss_function = "sigmoid_cross_entropy_10"
 

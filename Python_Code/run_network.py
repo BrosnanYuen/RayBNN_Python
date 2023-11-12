@@ -97,7 +97,7 @@ def main():
     lr_strategy = "NONE"
     lr_strategy2 = "BTLS_ALPHA"
 
-    loss_function = "sigmoid_cross_entropy"
+    loss_function = "sigmoid_cross_entropy_10"
 
     max_epoch = 10000
     stop_epoch = 10000

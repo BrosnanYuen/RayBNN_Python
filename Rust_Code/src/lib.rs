@@ -368,7 +368,27 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 				&mut loss_status
 			);
 		}
+		else if loss_function == "sigmoid_cross_entropy_10"
+		{
+			raybnn::interface::autotrain_f32::train_network(
+				&traindata_X,
+				&traindata_Y,
 
+				&validationdata_X,
+				&validationdata_Y,
+
+				sigmoid_loss,
+				sigmoid_loss_grad,
+
+				train_stop_options,
+
+				&mut alpha_max_vec,
+				&mut loss_vec,
+				&mut crossval_vec,
+				&mut arch_search,
+				&mut loss_status
+			);
+		}
 
 		let obj = pythonize(py, &arch_search).unwrap();
 

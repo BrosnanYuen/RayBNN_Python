@@ -97,6 +97,25 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 
 
+	#[pyfn(m)]
+    fn select_forward_sphere<'py>(
+        py: Python<'py>,
+
+
+		model: Py<PyAny>
+    ) -> Py<PyAny>{
+		arrayfire::set_backend(arrayfire::Backend::CUDA);
+
+		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
+
+
+
+		let obj = pythonize(py, &arch_search).unwrap();
+
+		obj
+	}
+
+
 
 	#[pyfn(m)]
     fn create_start_archtecture<'py>(

@@ -242,7 +242,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		};
 
 
-		let mut alpha_max_vec = Vec::new();
+		let mut alpha_max_vec = vec![max_alpha; 1000];
 		let mut loss_vec = Vec::new();
 		let mut crossval_vec = Vec::new();
 		let mut loss_status = raybnn::interface::autotrain_f32::loss_status_type::LOSS_OVERFLOW;

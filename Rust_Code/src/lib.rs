@@ -108,7 +108,14 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
-
+		raybnn::graph::adjacency_f32::select_forward_sphere(
+			&arch_search.neural_network.netdata, 
+			&mut WValues, 
+			&mut arch_search.neural_network.WRowIdxCOO, 
+			&mut arch_search.neural_network.WColIdx, 
+			&arch_search.neural_network.neuron_pos, 
+			&arch_search.neural_network.neuron_idx
+		);
 
 		let obj = pythonize(py, &arch_search).unwrap();
 

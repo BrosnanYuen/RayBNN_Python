@@ -103,6 +103,8 @@ def main():
     stop_epoch = 10000
     stop_train_loss = 0.0001
 
+    max_alpha = 0.0091
+
     exit_counter_threshold = 100
     shuffle_counter_threshold = 10000
 
@@ -124,6 +126,8 @@ def main():
         max_epoch,
         stop_epoch,
         stop_train_loss,
+
+        max_alpha,
       
         exit_counter_threshold,
         shuffle_counter_threshold,

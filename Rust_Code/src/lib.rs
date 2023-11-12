@@ -163,6 +163,8 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		stop_epoch: u64,
 		stop_train_loss: f32,
 
+		max_alpha: f32,
+
 		exit_counter_threshold: u64,
 		shuffle_counter_threshold: u64,
 

@@ -133,6 +133,10 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			&arch_search.neural_network.neuron_idx
 		);
 
+		arch_search.neural_network.WRowIdxCSR = raybnn::graph::large_sparse_i32::COO_to_CSR(&WRowIdxCOO,arch_search.neural_network.netdata.neuron_size);
+
+
+
 		let obj = pythonize(py, &arch_search).unwrap();
 
 		obj

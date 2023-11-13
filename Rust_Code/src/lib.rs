@@ -108,10 +108,46 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let mut arch_search: raybnn::interface::automatic_f32::arch_search_type = depythonize(model.as_ref(py)).unwrap();
 
+		let mut WRowIdxCOO = raybnn::graph::large_sparse_i32::CSR_to_COO(&arch_search.neural_network.WRowIdxCSR);
+
+
+		let WValuesdims0 =  arch_search.neural_network.WColIdx.dims()[0];
+
+		let network_paramsdims0 =  arch_search.neural_network.network_params.dims()[0];
+	
+		let Hdims0 =  (network_paramsdims0 -  WValuesdims0)/6; 
+	
+	
+	
+		let Wstart = 0;
+		let Wend = (WValuesdims0  as i64) - 1;
+	
+		let Hstart = Wend + 1; 
+		let Hend = Hstart + (Hdims0 as i64) - 1;
+	
+		let Astart = Hend + 1; 
+		let Aend = Astart + (Hdims0 as i64) - 1;
+	
+		let Bstart = Aend + 1; 
+		let Bend = Bstart + (Hdims0 as i64) - 1;
+	
+		let Cstart = Bend + 1; 
+		let Cend = Cstart + (Hdims0 as i64) - 1;
+	
+
+
+	
+		let Wseqs = [arrayfire::Seq::new(Wstart as i32, Wend as i32, 1i32)];
+	
+	
+	
+		let mut WValues = arrayfire::index(&arch_search.neural_network.network_params, &Wseqs);
+
+
 		raybnn::graph::adjacency_f32::select_forward_sphere(
 			&arch_search.neural_network.netdata, 
 			&mut WValues, 
-			&mut arch_search.neural_network.WRowIdxCOO, 
+			&mut WRowIdxCOO, 
 			&mut arch_search.neural_network.WColIdx, 
 			&arch_search.neural_network.neuron_pos, 
 			&arch_search.neural_network.neuron_idx

@@ -420,14 +420,29 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let crossval_x = crossval_x.to_owned_array() ;
 		let crossval_y = crossval_y.to_owned_array() ;
 
+
+		let Xslices = train_x_dims[2];
+
+
 		for traj in 0..train_x_dims[3]
 		{
 
 
 			let train_x_dims = train_x.shape().clone().to_vec();
 			let train_y_dims = train_y.shape().clone().to_vec();
-			let X = train_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_x_dims[0],train_x_dims[2],train_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
-			let Y = train_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_y_dims[0],train_y_dims[2],train_y_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+
+			let mut X = Vec::new();
+			let mut Y = Vec::new();
+			if Xslices > 1
+			{
+				X = train_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_x_dims[0],train_x_dims[2],train_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+				Y = train_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_y_dims[0],train_y_dims[2],train_y_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();	
+			}
+			else
+			{
+				X = train_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_x_dims[1],train_x_dims[0]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+				Y = train_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([train_y_dims[1],train_y_dims[0]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();	
+			}
 
 
 
@@ -440,9 +455,19 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		{
 			let crossval_x_dims = crossval_x.shape().clone().to_vec();
 			let crossval_y_dims = crossval_y.shape().clone().to_vec();
-			let X = crossval_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_x_dims[0],crossval_x_dims[2],crossval_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
-			let Y = crossval_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_y_dims[0],crossval_y_dims[2],crossval_y_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
 
+			let mut X = Vec::new();
+			let mut Y = Vec::new();
+			if Xslices > 1
+			{
+				X = crossval_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_x_dims[0],crossval_x_dims[2],crossval_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+				Y = crossval_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_y_dims[0],crossval_y_dims[2],crossval_y_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+			}
+			else 
+			{
+				X = crossval_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_x_dims[1],crossval_x_dims[0]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+				Y = crossval_y.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([crossval_y_dims[1],crossval_y_dims[0]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+			}
 
 
 			validationdata_X.insert(traj as u64, X);
@@ -575,12 +600,24 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let test_x = test_x.to_owned_array() ;
 
+
+		let Xslices = test_x_dims[2];
+
 		
 		for traj in 0..test_x_dims[3]
 		{
 			let test_x_dims = test_x.shape().clone().to_vec();
-			let X = test_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([test_x_dims[0],test_x_dims[2],test_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
 
+			let mut X = Vec::new();
+
+			if Xslices > 1
+			{
+				X = test_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([test_x_dims[0],test_x_dims[2],test_x_dims[1]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+			}
+			else 
+			{
+				X = test_x.index_axis(Axis(3), traj).to_owned().into_pyarray(py).reshape_with_order([test_x_dims[1],test_x_dims[0]], numpy::npyffi::types::NPY_ORDER::NPY_FORTRANORDER).unwrap().to_vec().unwrap();
+			}
 
 
 			validationdata_X.insert(traj as u64, X);

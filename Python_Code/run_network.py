@@ -37,7 +37,7 @@ def main():
     max_output_size = 10
     output_size = 10
 
-    max_neuron_size = 20000
+    max_neuron_size = 15000
 
     batch_size = 1000
     traj_size = 1

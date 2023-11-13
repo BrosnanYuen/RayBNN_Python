@@ -90,6 +90,8 @@ def main():
         arch_search,
     )
 
+    arch_search = raybnn_python.select_forward_sphere(arch_search)
+
     raybnn_python.print_model_info(arch_search)
 
 

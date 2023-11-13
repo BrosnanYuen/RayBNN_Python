@@ -111,17 +111,63 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		let mut WRowIdxCOO = raybnn::graph::large_sparse_i32::CSR_to_COO(&arch_search.neural_network.WRowIdxCSR);
 
 
-		let WValuesdims0 =  arch_search.neural_network.WColIdx.dims()[0];
 
+
+
+
+		let WValuesdims0 =  (arch_search).neural_network.WColIdx.dims()[0];
+
+		let network_paramsdims0 =  (arch_search).neural_network.network_params.dims()[0];
+	
+		let Hdims0 =  (network_paramsdims0 -  WValuesdims0)/6; 
+	
+	
 	
 		let Wstart = 0;
 		let Wend = (WValuesdims0  as i64) - 1;
 	
-
+		let Hstart = Wend + 1; 
+		let Hend = Hstart + (Hdims0 as i64) - 1;
+	
+		let Astart = Hend + 1; 
+		let Aend = Astart + (Hdims0 as i64) - 1;
+	
+		let Bstart = Aend + 1; 
+		let Bend = Bstart + (Hdims0 as i64) - 1;
+	
+		let Cstart = Bend + 1; 
+		let Cend = Cstart + (Hdims0 as i64) - 1;
+	
+		let Dstart = Cend + 1; 
+		let Dend = Dstart + (Hdims0 as i64) - 1;
+	
+		let Estart = Dend + 1; 
+		let Eend = Estart + (Hdims0 as i64) - 1;
+	
+	
 		let Wseqs = [arrayfire::Seq::new(Wstart as i32, Wend as i32, 1i32)];
+		let Hseqs = [arrayfire::Seq::new(Hstart as i32, Hend as i32, 1i32)];
+		let Aseqs = [arrayfire::Seq::new(Astart as i32, Aend as i32, 1i32)];
+		let Bseqs = [arrayfire::Seq::new(Bstart as i32, Bend as i32, 1i32)];
+		let Cseqs = [arrayfire::Seq::new(Cstart as i32, Cend as i32, 1i32)];
+		let Dseqs = [arrayfire::Seq::new(Dstart as i32, Dend as i32, 1i32)];
+		let Eseqs = [arrayfire::Seq::new(Estart as i32, Eend as i32, 1i32)];
+	
+		
+	
+		let mut WValues = arrayfire::index(&((arch_search).neural_network.network_params), &Wseqs);
+		let H = arrayfire::index(&((arch_search).neural_network.network_params), &Hseqs);
+		let A = arrayfire::index(&((arch_search).neural_network.network_params), &Aseqs);
+		let B = arrayfire::index(&((arch_search).neural_network.network_params), &Bseqs);
+		let C = arrayfire::index(&((arch_search).neural_network.network_params), &Cseqs);
+		let D = arrayfire::index(&((arch_search).neural_network.network_params), &Dseqs);
+		let E = arrayfire::index(&((arch_search).neural_network.network_params), &Eseqs);
 	
 	
-		let mut WValues = arrayfire::index(&arch_search.neural_network.network_params, &Wseqs);
+
+
+
+
 
 
 		raybnn::graph::adjacency_f32::select_forward_sphere(
@@ -134,6 +180,60 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		);
 
 		arch_search.neural_network.WRowIdxCSR = raybnn::graph::large_sparse_i32::COO_to_CSR(&WRowIdxCOO,arch_search.neural_network.netdata.neuron_size);
+
+
+
+
+
+
+		let total_param_size = WValues.dims()[0]  +  H.dims()[0]  +  A.dims()[0]    +  B.dims()[0]    +  C.dims()[0]    +  D.dims()[0]   +  E.dims()[0]  ;
+		let network_params_dims = arrayfire::Dim4::new(&[total_param_size,1,1,1]);
+	
+		let Wstart = 0;
+		let Wend = (WValues.dims()[0]  as i64) - 1;
+	
+		let Hstart = Wend + 1; 
+		let Hend = Hstart + (H.dims()[0] as i64) - 1;
+	
+		let Astart = Hend + 1; 
+		let Aend = Astart + (A.dims()[0] as i64) - 1;
+	
+		let Bstart = Aend + 1; 
+		let Bend = Bstart + (B.dims()[0] as i64) - 1;
+	
+		let Cstart = Bend + 1; 
+		let Cend = Cstart + (C.dims()[0] as i64) - 1;
+	
+		let Dstart = Cend + 1; 
+		let Dend = Dstart + (D.dims()[0] as i64) - 1;
+	
+		let Estart = Dend + 1; 
+		let Eend = Estart + (E.dims()[0] as i64) - 1;
+	
+	
+		let Wseqs = [arrayfire::Seq::new(Wstart as i32, Wend as i32, 1i32)];
+		let Hseqs = [arrayfire::Seq::new(Hstart as i32, Hend as i32, 1i32)];
+		let Aseqs = [arrayfire::Seq::new(Astart as i32, Aend as i32, 1i32)];
+		let Bseqs = [arrayfire::Seq::new(Bstart as i32, Bend as i32, 1i32)];
+		let Cseqs = [arrayfire::Seq::new(Cstart as i32, Cend as i32, 1i32)];
+		let Dseqs = [arrayfire::Seq::new(Dstart as i32, Dend as i32, 1i32)];
+		let Eseqs = [arrayfire::Seq::new(Estart as i32, Eend as i32, 1i32)];
+	
+	
+		(arch_search).neural_network.network_params = arrayfire::constant::<f32>(0.0,network_params_dims);
+		arrayfire::assign_seq(&mut ((arch_search).neural_network.network_params), &Wseqs, &WValues);
+		arrayfire::assign_seq(&mut ((arch_search).neural_network.network_params), &Hseqs, &H);
+		arrayfire::assign_seq(&mut ((arch_search).neural_network.network_params), &Aseqs, &A);
+		arrayfire::assign_seq(&mut ((arch_search).neural_network.network_params), &Bseqs, &B);
+		arrayfire::assign_seq(&mut ((arch_search).neural_network.network_params), &Cseqs, &C);
+		arrayfire::assign_seq(&mut ((arch_search).neural_network.network_params), &Dseqs, &D);	
+		arrayfire::assign_seq(&mut ((arch_search).neural_network.network_params), &Eseqs, &E);	
+	
+	
+	
+		(arch_search).neural_network.netdata.active_size = (arch_search).neural_network.neuron_idx.dims()[0];
+	
+
 
 
 

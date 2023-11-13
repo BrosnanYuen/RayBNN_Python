@@ -113,32 +113,12 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let WValuesdims0 =  arch_search.neural_network.WColIdx.dims()[0];
 
-		let network_paramsdims0 =  arch_search.neural_network.network_params.dims()[0];
-	
-		let Hdims0 =  (network_paramsdims0 -  WValuesdims0)/6; 
-	
-	
 	
 		let Wstart = 0;
 		let Wend = (WValuesdims0  as i64) - 1;
 	
-		let Hstart = Wend + 1; 
-		let Hend = Hstart + (Hdims0 as i64) - 1;
-	
-		let Astart = Hend + 1; 
-		let Aend = Astart + (Hdims0 as i64) - 1;
-	
-		let Bstart = Aend + 1; 
-		let Bend = Bstart + (Hdims0 as i64) - 1;
-	
-		let Cstart = Bend + 1; 
-		let Cend = Cstart + (Hdims0 as i64) - 1;
-	
 
-
-	
 		let Wseqs = [arrayfire::Seq::new(Wstart as i32, Wend as i32, 1i32)];
-	
 	
 	
 		let mut WValues = arrayfire::index(&arch_search.neural_network.network_params, &Wseqs);

@@ -45,7 +45,7 @@ def main():
     traj_size = 1
 
     proc_num = 4
-    active_size = 12000
+    active_size = 11812
 
     training_samples = 60
     crossval_samples = 60

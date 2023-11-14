@@ -42,6 +42,9 @@ def main():
     batch_size = 1000
     traj_size = 1
 
+    proc_num = 4
+    active_size = 12000
+
     training_samples = 60
     crossval_samples = 60
     testing_samples = 10
@@ -62,9 +65,6 @@ def main():
     crossval_x = np.copy(train_x)
     crossval_y = np.copy(train_y)
 
-
-    proc_num = 4
-    active_size = 12000
 
     arch_search = raybnn_python.create_start_archtecture(
         input_size,
@@ -87,7 +87,7 @@ def main():
 
     arch_search = raybnn_python.add_neuron_to_existing3(
         10,
-		39,
+		45,
 		neuron_rad*90.0,
 		neuron_rad*90.0,
 		neuron_rad*90.0,

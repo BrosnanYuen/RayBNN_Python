@@ -3,6 +3,8 @@ import raybnn_python
 import mnist
 import os 
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_recall_fscore_support
+
 
 def main():
 
@@ -172,7 +174,10 @@ def main():
 
     acc = accuracy_score(y_test, pred)
 
+    ret = precision_recall_fscore_support(y_test, pred, average='macro')
+
     print(acc)
+    print(ret)
 
 
 

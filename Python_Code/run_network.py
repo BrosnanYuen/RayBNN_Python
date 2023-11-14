@@ -16,7 +16,7 @@ def main():
 
     max_value = np.max(x_train)
     min_value = np.min(x_train)
-    mean_value = (max_value+min_value)/2
+    mean_value = np.mean(x_train)
 
     x_train = (x_train.astype(np.float32) - mean_value)/(max_value - min_value)
     x_test = (x_test.astype(np.float32) - mean_value)/(max_value - min_value)

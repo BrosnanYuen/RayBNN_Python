@@ -89,7 +89,7 @@ def main():
 
     arch_search = raybnn_python.add_neuron_to_existing3(
         10,
-		45,
+		60,
 		(sphere_rad/3.7),
 		(sphere_rad/3.7),
 		(sphere_rad/3.7),

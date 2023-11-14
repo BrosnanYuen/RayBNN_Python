@@ -253,10 +253,13 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 		output_size: u64,
 		max_output_size: u64,
 
+		active_size: u64,
 		max_neuron_size: u64,
 
 		batch_size: u64,
 		traj_size: u64,
+
+		proc_num: u64,
 
 		directory_path:  String
     ) -> Py<PyAny> {
@@ -265,7 +268,7 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 
 		let dir_path = directory_path.clone();
 
-		let mut arch_search = raybnn::interface::automatic_f32::create_start_archtecture(
+		let mut arch_search = raybnn::interface::automatic_f32::create_start_archtecture2(
 
 			input_size,
 			max_input_size,
@@ -273,10 +276,13 @@ fn raybnn_python<'py>(_py: Python<'py>, m: &'py PyModule) -> PyResult<()> {
 			output_size,
 			max_output_size,
 
+			active_size,
 			max_neuron_size,
 
 			batch_size,
 			traj_size,
+
+			proc_num,
 
 			&dir_path
 		);

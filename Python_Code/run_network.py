@@ -63,25 +63,30 @@ def main():
     crossval_y = np.copy(train_y)
 
 
+    proc_num = 4
+    active_size = 12000
 
     arch_search = raybnn_python.create_start_archtecture(
         input_size,
         max_input_size,
+
         output_size,
         max_output_size,
+
+        active_size,
         max_neuron_size,
+
         batch_size,
         traj_size,
+
+        proc_num,
         dir_path
     )
 
-
     neuron_rad = arch_search["neural_network"]["netdata"]["neuron_rad"]
-    arch_search["neural_network"]["netdata"]["proc_num"] = 4
-
 
     arch_search = raybnn_python.add_neuron_to_existing3(
-        11000,
+        10,
 		39,
 		neuron_rad*90.0,
 		neuron_rad*90.0,

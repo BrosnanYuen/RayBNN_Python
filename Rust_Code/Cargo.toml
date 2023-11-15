@@ -14,8 +14,8 @@ numpy = "0.19"
 ndarray = { version = "0.15", features = ["rayon", "blas"] }
 blas-src = { version = "0.8", features = ["openblas"] }
 openblas-src = { version = "0.10", features = ["cblas", "system"] }
-#raybnn = "0.1.4"
-raybnn = { path = "/opt/raybnn/" }
+raybnn = "0.1.5"
+#raybnn = { path = "/opt/raybnn/" }
 arrayfire = { version = "3.8.1", package = "arrayfire_fork", features = ["algorithm", "arithmetic", "blas", "data", "indexing", "graphics", "image", "lapack",
 "ml", "macros", "random", "signal", "sparse", "statistics", "vision","afserde"] }
 pythonize = "0.19.0"

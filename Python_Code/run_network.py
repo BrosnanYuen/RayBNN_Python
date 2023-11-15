@@ -85,14 +85,14 @@ def main():
         dir_path
     )
 
-    sphere_rad = arch_search["neural_network"]["netdata"]["sphere_rad"]
+    neuron_rad = arch_search["neural_network"]["netdata"]["neuron_rad"]
 
     arch_search = raybnn_python.add_neuron_to_existing3(
         10,
-		60,
-		(sphere_rad/3.7),
-		(sphere_rad/3.7),
-		(sphere_rad/3.7),
+		45,
+		neuron_rad*90.0,
+		neuron_rad*90.0,
+		neuron_rad*90.0,
 
         arch_search,
     )

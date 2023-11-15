@@ -39,13 +39,13 @@ def main():
     max_output_size = 10
     output_size = 10
 
-    max_neuron_size = 7000
+    max_neuron_size = 4000
 
     batch_size = 1000
     traj_size = 1
 
     proc_num = 3
-    active_size = 5000
+    active_size = 2500
 
     training_samples = 60
     crossval_samples = 60
@@ -89,10 +89,10 @@ def main():
 
     arch_search = raybnn_python.add_neuron_to_existing3(
         10,
-		120,
-		sphere_rad/2.5,
-		sphere_rad/2.5,
-		sphere_rad/2.5,
+		1000,
+		sphere_rad/2.1,
+		sphere_rad/2.1,
+		sphere_rad/2.1,
 
         arch_search,
     )
@@ -110,9 +110,9 @@ def main():
 
     max_epoch = 100000
     stop_epoch = 100000
-    stop_train_loss = 0.01
+    stop_train_loss = 0.005
 
-    max_alpha = 0.0091
+    max_alpha = 0.01
 
     exit_counter_threshold = 100000
     shuffle_counter_threshold = 200

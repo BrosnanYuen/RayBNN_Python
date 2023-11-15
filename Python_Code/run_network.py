@@ -85,14 +85,14 @@ def main():
         dir_path
     )
 
-    neuron_rad = arch_search["neural_network"]["netdata"]["neuron_rad"]
+    sphere_rad = arch_search["neural_network"]["netdata"]["sphere_rad"]
 
     arch_search = raybnn_python.add_neuron_to_existing3(
         10,
-		45,
-		neuron_rad*90.0,
-		neuron_rad*90.0,
-		neuron_rad*90.0,
+		60,
+		sphere_rad/3.5,
+		sphere_rad/3.5
+		sphere_rad/3.5
 
         arch_search,
     )
@@ -102,20 +102,20 @@ def main():
     raybnn_python.print_model_info(arch_search)
 
 
-    stop_strategy = "STOP_AT_EPOCH"
-    lr_strategy = "NONE"
+    stop_strategy = "STOP_AT_TRAIN_LOSS"
+    lr_strategy = "SHUFFLE_CONNECTIONS"
     lr_strategy2 = "MAX_ALPHA"
 
     loss_function = "sigmoid_cross_entropy_5"
 
-    max_epoch = 1300
-    stop_epoch = 1300
-    stop_train_loss = 0.000001
+    max_epoch = 100000
+    stop_epoch = 100000
+    stop_train_loss = 0.01
 
     max_alpha = 0.0091
 
-    exit_counter_threshold = 1300
-    shuffle_counter_threshold = 10000
+    exit_counter_threshold = 100000
+    shuffle_counter_threshold = 200
 
 
 

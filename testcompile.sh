@@ -27,4 +27,4 @@ maturin develop
 python3 ./example.py
 python3 ./run_network.py
 rm -rf /scratch/brosnany/Rust_Code/target/
-maturin build
+maturin build -r

@@ -44,7 +44,7 @@ def main():
     batch_size = 1000
     traj_size = 1
 
-    proc_num = 4
+    proc_num = 3
     active_size = 5000
 
     training_samples = 60
@@ -89,10 +89,10 @@ def main():
 
     arch_search = raybnn_python.add_neuron_to_existing3(
         10,
-		700,
-		sphere_rad/3.5,
-		sphere_rad/3.5,
-		sphere_rad/3.5,
+		120,
+		sphere_rad/2.5,
+		sphere_rad/2.5,
+		sphere_rad/2.5,
 
         arch_search,
     )

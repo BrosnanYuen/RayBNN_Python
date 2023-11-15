@@ -8,12 +8,15 @@ from sklearn.metrics import precision_recall_fscore_support
 
 def main():
 
+
+    #Load MNIST dataset
     if os.path.isfile("./train-labels-idx1-ubyte.gz") == False:
         mnist.init()
 
     x_train, y_train, x_test, y_test = mnist.load()
 
 
+    #Normalize MNIST dataset
     max_value = np.max(x_train)
     min_value = np.min(x_train)
     mean_value = np.mean(x_train)
@@ -21,14 +24,7 @@ def main():
     x_train = (x_train.astype(np.float32) - mean_value)/(max_value - min_value)
     x_test = (x_test.astype(np.float32) - mean_value)/(max_value - min_value)
 
-    print(x_train)
-    print(x_train.shape)
 
-    print(y_train)
-    print(y_train.shape)
-
-    print(y_test)
-    print(y_test.shape)
 
 
     dir_path = "/tmp/"
@@ -52,6 +48,7 @@ def main():
     testing_samples = 10
 
 
+    #Format MNIST dataset
     train_x = np.zeros((input_size,batch_size,traj_size,training_samples)).astype(np.float32)
     train_y = np.zeros((output_size,batch_size,traj_size,training_samples)).astype(np.float32)
 
@@ -67,7 +64,7 @@ def main():
     crossval_x = np.copy(train_x)
     crossval_y = np.copy(train_y)
 
-
+    #Create Neural Network
     arch_search = raybnn_python.create_start_archtecture(
         input_size,
         max_input_size,
@@ -118,7 +115,7 @@ def main():
     shuffle_counter_threshold = 200
 
 
-
+    #Train Neural Network
     arch_search = raybnn_python.train_network(
         train_x,
         train_y,
@@ -152,7 +149,7 @@ def main():
 
         test_x[:, j , 0, k ] = x_test[i,:]
 
-
+    #Test Neural Network
     output_y = raybnn_python.test_network(
         test_x,
 

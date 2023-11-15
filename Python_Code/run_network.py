@@ -39,13 +39,13 @@ def main():
     max_output_size = 10
     output_size = 10
 
-    max_neuron_size = 4000
+    max_neuron_size = 2000
 
     batch_size = 1000
     traj_size = 1
 
-    proc_num = 3
-    active_size = 2500
+    proc_num = 2
+    active_size = 1000
 
     training_samples = 60
     crossval_samples = 60
@@ -89,10 +89,10 @@ def main():
 
     arch_search = raybnn_python.add_neuron_to_existing3(
         10,
-		1000,
-		sphere_rad/2.1,
-		sphere_rad/2.1,
-		sphere_rad/2.1,
+		10000,
+		sphere_rad/1.3,
+		sphere_rad/1.3,
+		sphere_rad/1.3,
 
         arch_search,
     )
